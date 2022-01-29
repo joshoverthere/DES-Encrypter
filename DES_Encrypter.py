@@ -1,14 +1,30 @@
-#DES Rules:
-#not a fkn clue time to read wikipedia
+# DES Rules:
+# not a fkn clue time to read wikipedia
 
 import os
+from bitarray import bitarray
+from key_scheduler import KeyScheduler
+from operations import permute
 
-clearConsole = lambda: os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 
-def main():
-    while (1):
-        clearConsole()
-        print("Welcome to DES Encrypter!")
-        input()
+def clear_console():
+    os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 
-main()
+
+if __name__ == "__main__":
+    key = ""
+    plain_text = ""
+    while len(key) != 8:
+        key = input("insert a 64 bit key: ")
+    while len(plain_text) != 8:
+        plain_text = input("insert a 64 bit plain text: ")
+
+    # init key scheduler
+    scheduler = KeyScheduler(key)
+
+    # initial permutation
+    input_bytes = bitarray(endian='big')
+    input_bytes.frombytes(plain_text.encode())
+    print("input bits:\t\t", input_bytes)
+    permuted = permute(input_bytes, "IP")
+    print("permuted bits:\t", permuted)
