@@ -27,4 +27,4 @@ class KeyScheduler:
             self.rightKey = self.rightKey[1:]
 
         self.currentRound += 1
-        return permute(self.leftKey, "DBOX")
+        return permute(self.leftKey+self.rightKey, "DBOX")
